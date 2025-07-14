@@ -1,11 +1,13 @@
 shader_type spatial;
 varying flat int padded;
-const float snow_threshold = 0.6;
+const float snow_threshold = 0.65;
+uniform sampler2D snow_texture;
+uniform sampler2D stone_texture;
 global uniform sampler2D treaded_vertices;
 
 void vertex() {
-	if (NORMAL.y > 0.6){
-		VERTEX.y += 1.0;
+	if (NORMAL.y > snow_threshold){
+		VERTEX.y += 0.75;
 		padded = 1;
 	}else{
 		padded = 0;
@@ -14,10 +16,12 @@ void vertex() {
 
 void fragment() {
 	if (padded == 0){
-		ALBEDO = vec3(0.07,0.05,0.05);
+		vec4 tex = texture(stone_texture, UV*267.0);
+		ALBEDO = tex.rgb;
 	}
 	else{
-		ALBEDO = vec3(0.9,0.9,1.0);
+		vec4 tex = texture(snow_texture, UV*180.0);
+		ALBEDO = tex.rgb;
 	}
 }
 

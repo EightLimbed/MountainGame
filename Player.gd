@@ -1,13 +1,13 @@
 extends RigidBody3D
 
-var camera_zoom : float = 4.0
+var camera_zoom : float = 6.0
 var pitch : float = 1.0
 var yaw : float = 0.0
 var sensitivity = 0.002
 var camera_distance := 6.0
 var camera_height := 2.0
 var airborne : bool = false
-const SPEED = 500.0
+const SPEED = 400.0
 @onready var camera := $Camera3D
 
 func _ready():
