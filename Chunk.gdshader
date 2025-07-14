@@ -1,11 +1,18 @@
 shader_type spatial;
+varying float slope;
+const float snow_threshold = 0.6;
 
 void vertex() {
-	// Called for every vertex the material is visible on.
+	slope = NORMAL.y;
 }
 
 void fragment() {
-	// Called for every pixel the material is visible on.
+	if (slope < 0.6){
+		ALBEDO = vec3(0.07,0.05,0.05);
+	}
+	else{
+		ALBEDO = vec3(0.9,0.9,1.0);
+	}
 }
 
 //void light() {

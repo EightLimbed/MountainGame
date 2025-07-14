@@ -10,7 +10,7 @@ extends MeshInstance3D
 @export_range(4.0,256.0,1.0) var resolution := 32.0
 
 func get_height(x: float, z: float) -> float:
-	return noise.get_noise_2d(x+position.x, z+position.z) * 64.0
+	return noise.get_noise_2d(x+position.x, z+position.z) * 64.0 - (z+position.z)/2
 
 func get_normal(x: float, y: float) -> Vector3:
 	var epsilon := size / resolution
@@ -50,3 +50,5 @@ func update_mesh() -> void:
 	var array_mesh := ArrayMesh.new()
 	array_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, plane_arrays)
 	mesh = array_mesh
+	var trimesh_collisions = array_mesh.create_trimesh_shape()
+	$StaticBody3D/CollisionShape3D.shape = trimesh_collisions
