@@ -7,11 +7,11 @@ var sensitivity = 0.002
 var camera_distance := 6.0
 var camera_height := 2.0
 var airborne : bool = false
-const SPEED = 1000.0
+const SPEED = 500.0
 @onready var camera := $Camera3D
 
 func _ready():
-	sleeping = false
+	pass
 
 func _unhandled_input(event: InputEvent) -> void:
 	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -35,8 +35,11 @@ func _physics_process(delta: float) -> void:
 	var input_dir := Input.get_vector("Left", "Right", "Forward", "Backward")
 	var forward = Vector3(sin(yaw), 0, cos(yaw)).normalized()
 	var right = Vector3(forward.z, 0, -forward.x).normalized()
-	var move_dir := (right * input_dir.x + forward * input_dir.y).normalized()
-	if move_dir != Vector3.ZERO:
+	if input_dir != Vector2.ZERO:
+		if airborne:
+			var rot_dir := (right * input_dir.y + -forward * input_dir.x).normalized()
+			apply_torque(rot_dir*SPEED*delta*2.0)
+		var move_dir := (right * input_dir.x + forward * input_dir.y).normalized()
 		apply_central_force(move_dir * SPEED * delta)
 
 func _on_ground_detector_body_entered(_body: Node3D) -> void:
@@ -44,3 +47,13 @@ func _on_ground_detector_body_entered(_body: Node3D) -> void:
 
 func _on_air_detector_body_exited(_body: Node3D) -> void:
 	airborne = true
+
+func create_position_texture(positions: Array[Vector3]) -> ImageTexture:
+	var width = max(1, positions.size())
+	var img := Image.create(width, 1, false, Image.FORMAT_RGBF)
+	for i in positions.size():
+		var p: Vector3 = positions[i]
+		img.set_pixel(i, 0, Color(p.x, p.y, p.z))
+	
+	var tex := ImageTexture.create_from_image(img)
+	return tex

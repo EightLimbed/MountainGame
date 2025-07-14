@@ -1,13 +1,19 @@
 shader_type spatial;
-varying float slope;
+varying flat int padded;
 const float snow_threshold = 0.6;
+global uniform sampler2D treaded_vertices;
 
 void vertex() {
-	slope = NORMAL.y;
+	if (NORMAL.y > 0.6){
+		VERTEX.y += 1.0;
+		padded = 1;
+	}else{
+		padded = 0;
+	}
 }
 
 void fragment() {
-	if (slope < 0.6){
+	if (padded == 0){
 		ALBEDO = vec3(0.07,0.05,0.05);
 	}
 	else{

@@ -9,8 +9,11 @@ extends MeshInstance3D
 @export_range(64,1024.0,1.0) var size := 256.0
 @export_range(4.0,256.0,1.0) var resolution := 32.0
 
+func _ready() -> void:
+	update_mesh()
+
 func get_height(x: float, z: float) -> float:
-	return noise.get_noise_2d(x+position.x, z+position.z) * 64.0 - (z+position.z)/2
+	return noise.get_noise_2d(x+position.x, z+position.z) * 12.0 - (z+position.z)/2
 
 func get_normal(x: float, y: float) -> Vector3:
 	var epsilon := size / resolution

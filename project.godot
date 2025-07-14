@@ -58,3 +58,10 @@ Jump={
 [rendering]
 
 renderer/rendering_method="mobile"
+
+[shader_globals]
+
+treaded_vertices={
+"type": "sampler2D",
+"value": ""
+}
