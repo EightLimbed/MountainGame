@@ -2,7 +2,6 @@ extends RigidBody3D
 
 #camera
 @onready var camera := $Camera3D
-@onready var tread_manager = $"/root/TreadManager"
 var camera_zoom : float = 6.0
 var pitch : float = 1.0
 var yaw : float = 0.0
@@ -14,7 +13,12 @@ var camera_height := 2.0
 var airborne : bool = true
 const SPEED = 400.0
 
+#treads
+@onready var tread_manager = $"/root/TreadManager"
+var old_tread_pos : Vector3
+
 func _ready():
+	old_tread_pos = position
 	pass
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -39,14 +43,20 @@ func _physics_process(delta: float) -> void:
 	var input_dir := Input.get_vector("Left", "Right", "Forward", "Backward")
 	var forward = Vector3(sin(yaw), 0, cos(yaw)).normalized()
 	var right = Vector3(forward.z, 0, -forward.x).normalized()
+	deal_with_footprints()
 	if input_dir != Vector2.ZERO:
 		if airborne:
 			var rot_dir := (right * input_dir.y + -forward * input_dir.x).normalized()
 			apply_torque(rot_dir*SPEED*delta*2.0)
 		var move_dir := (right * input_dir.x + forward * input_dir.y).normalized()
 		apply_central_force(move_dir * SPEED * delta)
-	if !airborne and linear_velocity != Vector3.ZERO:
-		tread_manager.add_tread(position)
+
+#if player is on ground, pass list of saved positions of certain distance from eachother, along with current player position, for smooth trails
+func deal_with_footprints():
+	#if !airborne:
+		if (old_tread_pos- position).length() > 1.5:
+			tread_manager.add_tread(position)
+			old_tread_pos = position
 
 func _on_ground_detector_body_entered(_body: Node3D) -> void:
 	airborne = false

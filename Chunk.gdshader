@@ -5,12 +5,12 @@ const float snow_threshold = 0.65;
 const float tread_radius = 3.0;
 uniform sampler2D snow_texture;
 uniform sampler2D stone_texture;
+uniform int max_treads = 128;
 global uniform sampler2D treaded_vertices;
-global uniform int total_treads;
 
 int treaded_has(vec3 world_pos){
-	for (int i = 0; i < total_treads; i++) {
-		vec3 fp = texture(treaded_vertices, vec2((float(i) + 0.5) / float(total_treads), 0.5)).rgb;;
+	for (int i = 0; i < max_treads; i++) {
+		vec3 fp = texture(treaded_vertices, vec2((float(i) + 0.5) / float(max_treads), 0.5)).rgb;;
 		if (distance(world_pos, fp) < tread_radius) {
 			return 1;
 		}

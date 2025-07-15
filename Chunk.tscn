@@ -23,6 +23,7 @@ render_priority = 0
 shader = ExtResource("1_s3wkh")
 shader_parameter/snow_texture = ExtResource("2_fbyps")
 shader_parameter/stone_texture = ExtResource("3_fbyps")
+shader_parameter/max_treads = 128
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_j2u7c"]
 noise_type = 0
@@ -45,8 +46,7 @@ mesh = SubResource("ArrayMesh_fbyps")
 surface_material_override/0 = SubResource("ShaderMaterial_r8y4k")
 script = ExtResource("2_r8y4k")
 noise = SubResource("FastNoiseLite_j2u7c")
-size = 256.0
-resolution = 128.0
+size = 256
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_layer = 2
