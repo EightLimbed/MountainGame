@@ -1,14 +1,18 @@
 extends RigidBody3D
 
+#camera
+@onready var camera := $Camera3D
+@onready var tread_manager = $"/root/TreadManager"
 var camera_zoom : float = 6.0
 var pitch : float = 1.0
 var yaw : float = 0.0
 var sensitivity = 0.002
 var camera_distance := 6.0
 var camera_height := 2.0
-var airborne : bool = false
+
+#movement
+var airborne : bool = true
 const SPEED = 400.0
-@onready var camera := $Camera3D
 
 func _ready():
 	pass
@@ -41,19 +45,11 @@ func _physics_process(delta: float) -> void:
 			apply_torque(rot_dir*SPEED*delta*2.0)
 		var move_dir := (right * input_dir.x + forward * input_dir.y).normalized()
 		apply_central_force(move_dir * SPEED * delta)
+	if !airborne and linear_velocity != Vector3.ZERO:
+		tread_manager.add_tread(position)
 
 func _on_ground_detector_body_entered(_body: Node3D) -> void:
 	airborne = false
 
 func _on_air_detector_body_exited(_body: Node3D) -> void:
 	airborne = true
-
-func create_position_texture(positions: Array[Vector3]) -> ImageTexture:
-	var width = max(1, positions.size())
-	var img := Image.create(width, 1, false, Image.FORMAT_RGBF)
-	for i in positions.size():
-		var p: Vector3 = positions[i]
-		img.set_pixel(i, 0, Color(p.x, p.y, p.z))
-	
-	var tex := ImageTexture.create_from_image(img)
-	return tex

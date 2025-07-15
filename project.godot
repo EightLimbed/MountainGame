@@ -15,6 +15,10 @@ run/main_scene="uid://dv2en3rqt72bg"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+TreadManager="*res://TreadManager.gd"
+
 [dotnet]
 
 project/assembly_name="MountainGame"
@@ -64,4 +68,8 @@ renderer/rendering_method="mobile"
 treaded_vertices={
 "type": "sampler2D",
 "value": ""
+}
+total_treads={
+"type": "int",
+"value": 0
 }

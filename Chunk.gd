@@ -6,8 +6,8 @@ extends MeshInstance3D
 		call("update_mesh")
 		generate = false
 @export var noise : FastNoiseLite
-@export_range(64,1024.0,1.0) var size := 256.0
-@export_range(4.0,256.0,1.0) var resolution := 32.0
+@export_range(64,1024.0,1.0) var size := 128
+@export_range(4.0,256.0,1.0) var resolution := 128
 
 func _ready() -> void:
 	update_mesh()
@@ -16,7 +16,7 @@ func get_height(x: float, z: float) -> float:
 	return noise.get_noise_2d(x+position.x, z+position.z) * 12.0 - (z+position.z)/2
 
 func get_normal(x: float, y: float) -> Vector3:
-	var epsilon := size / resolution
+	var epsilon := float(size) / float(resolution)
 	var normal := Vector3(
 		(get_height(x + epsilon, y) - get_height(x - epsilon, y)) / (2.0 * epsilon),
 		1.0,
@@ -25,7 +25,6 @@ func get_normal(x: float, y: float) -> Vector3:
 	return normal.normalized()
 
 func update_mesh() -> void:
-	print("generate")
 	var plane := PlaneMesh.new()
 	plane.subdivide_depth = resolution
 	plane.subdivide_width = resolution
@@ -49,7 +48,7 @@ func update_mesh() -> void:
 		tangent_array[4 * i] = tangent.x
 		tangent_array[4 * i + 1] = tangent.y
 		tangent_array[4 * i + 2] = tangent.z
-		
+
 	var array_mesh := ArrayMesh.new()
 	array_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, plane_arrays)
 	mesh = array_mesh
