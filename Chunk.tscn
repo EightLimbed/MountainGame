@@ -28,7 +28,7 @@ shader_parameter/max_treads = 128
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_j2u7c"]
 noise_type = 0
 seed = 45
-frequency = 0.02
+frequency = 0.015
 fractal_type = 0
 domain_warp_type = 1
 domain_warp_frequency = 0.01

@@ -8,10 +8,10 @@ uniform sampler2D stone_texture;
 uniform int max_treads = 128;
 global uniform sampler2D treaded_vertices;
 
-int treaded_has(vec3 world_pos){
+int treaded_has(vec3 pos){
 	for (int i = 0; i < max_treads; i++) {
 		vec3 fp = texture(treaded_vertices, vec2((float(i) + 0.5) / float(max_treads), 0.5)).rgb;;
-		if (distance(world_pos, fp) < tread_radius) {
+		if (distance(pos, fp) < tread_radius) {
 			return 1;
 		}
 	}
@@ -28,14 +28,15 @@ void vertex() {
 }
 
 void fragment() {
+	float b = (VERTEX.y-VERTEX.z)/512.0;
 	if (slope > snow_threshold) {
 		if (treaded == 1){
-			ALBEDO = texture(snow_texture, UV * 180.0).rgb-vec3(0.1,0.1,0.07);
+			ALBEDO = texture(snow_texture, UV * 180.0).rgb-vec3(0.1,0.1,0.07)+vec3(b,b,b/2.0);
 		}else{
-			ALBEDO = texture(snow_texture, UV * 180.0).rgb;
+			ALBEDO = texture(snow_texture, UV * 180.0).rgb+vec3(b,b,b/2.0);;
 		}
 	} else {
-		ALBEDO = texture(stone_texture, UV * 267.0).rgb;
+		ALBEDO = texture(stone_texture, UV * 267.0).rgb+vec3(b,b,b/2.0);
 	}
 }
 
