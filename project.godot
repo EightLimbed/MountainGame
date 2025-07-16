@@ -59,10 +59,6 @@ Jump={
 3d_physics/layer_1="Player"
 3d_physics/layer_2="Terrain"
 
-[rendering]
-
-renderer/rendering_method="mobile"
-
 [shader_globals]
 
 treaded_vertices={

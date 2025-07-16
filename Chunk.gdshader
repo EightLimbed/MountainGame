@@ -28,15 +28,15 @@ void vertex() {
 }
 
 void fragment() {
-	float b = (VERTEX.y-VERTEX.z)/512.0;
+	float b = sqrt(VERTEX.y-VERTEX.z)/100.0-0.2;
 	if (slope > snow_threshold) {
 		if (treaded == 1){
-			ALBEDO = texture(snow_texture, UV * 180.0).rgb-vec3(0.1,0.1,0.07)+vec3(b,b,b/2.0);
+			ALBEDO = texture(snow_texture, UV * 180.0).rgb+vec3(b,b,b/2.0)-0.2;
 		}else{
-			ALBEDO = texture(snow_texture, UV * 180.0).rgb+vec3(b,b,b/2.0);;
+			ALBEDO = texture(snow_texture, UV * 180.0).rgb+vec3(b,b,b/2.0)-0.1;
 		}
 	} else {
-		ALBEDO = texture(stone_texture, UV * 267.0).rgb+vec3(b,b,b/2.0);
+		ALBEDO = texture(stone_texture, UV * 267.0).rgb+vec3(b,b,b)/2.0;
 	}
 }
 
