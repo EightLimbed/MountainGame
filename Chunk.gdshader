@@ -7,15 +7,21 @@ uniform sampler2D snow_texture;
 uniform sampler2D stone_texture;
 uniform int max_treads = 128;
 global uniform sampler2D treaded_vertices;
-global uniform vec3 player_position;
 
 float tread_depth(vec3 pos){
-	for (int i = 0; i < max_treads; i++) {
-		vec3 fp = texture(treaded_vertices, vec2((float(i) + 0.5) / float(max_treads), 0.5)).rgb;
-		vec3 delta = pos-fp;
-		float d = dot(delta, delta);
-		if (d < tread_radius*tread_radius) {
-			return tread_radius-sqrt(d);
+	vec3 dp = pos-texture(treaded_vertices, vec2(1.0, 0.5)).rgb;
+	float rds = tread_radius*tread_radius; // max distance from tread position to apply
+	float mds = float(max_treads*max_treads); // max distance from player
+	float ddp = dot(dp,dp);
+	if (ddp < rds) return tread_radius-sqrt(ddp);
+	else if (ddp < mds) {
+		for (int i = 0; i < max_treads-1; i++) {
+			vec3 fp = texture(treaded_vertices, vec2((float(i) + 0.5) / float(max_treads), 0.5)).rgb;
+			vec3 delta = pos-fp;
+			float d = dot(delta, delta);
+			if (d < rds) {
+				return tread_radius-sqrt(d);
+			}
 		}
 	}
 	return tread_radius;
@@ -26,15 +32,11 @@ void vertex() {
 	slope = abs(NORMAL.y*1.01);
 	float d;
 	treaded = 0;
-	vec3 dp = player_position - world_pos;
-	float mds = float(max_treads*max_treads);
-	if (dot(dp, dp) < mds) {
-		d = tread_depth(world_pos);
-		if (d < tread_radius) treaded = 1;
-	}
+	d = tread_depth(world_pos);
+	if (d < tread_radius) treaded = 1;
 	if (NORMAL.y > snow_threshold){
 		if (treaded == 0) VERTEX += NORMAL*vec3(-1.2,1.0,-1.2);
-		else VERTEX -= vec3(0.0,d+0.1,0.0);
+		else VERTEX -= vec3(0.0,d-0.4,0.0);
 	}
 }
 
