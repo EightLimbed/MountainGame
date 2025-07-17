@@ -11,6 +11,6 @@ func _ready() -> void:
 
 func get_noise(x: float, z: float, pos : Vector3) -> float:
 	var updated_pos : Vector2 = Vector2(x+pos.x,z+pos.z)
-	var normal = noise.get_noise_2dv(updated_pos)*6.0
-	var large = (noise.get_noise_2dv(updated_pos/10.0)*6.0)**3
+	var normal = noise.get_noise_2dv(updated_pos/2.0)*12.0
+	var large = (noise.get_noise_2dv(updated_pos/16.0)*6.0)**3
 	return normal+large-(z+pos.z)/3.0

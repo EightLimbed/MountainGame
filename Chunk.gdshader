@@ -34,7 +34,7 @@ void vertex() {
 	}
 	if (NORMAL.y > snow_threshold){
 		if (treaded == 0) VERTEX += NORMAL*vec3(-1.2,1.0,-1.2);
-		else VERTEX -= vec3(0.0,d+0.1,0.0);
+		else VERTEX -= vec3(0.0,d-0.4,0.0);
 	}
 }
 
