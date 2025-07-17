@@ -1,26 +1,18 @@
-@tool
 extends MeshInstance3D
 
-@export var generate : bool = false:
-	set(gen):
-		call("update_mesh")
-		generate = false
-@export var noise : FastNoiseLite
+@onready var noise_manager = $"/root/NoiseManager"
 @export_range(64,1024.0,1.0) var size := 128
 @export_range(4.0,256.0,1.0) var resolution := 128
 
 func _ready() -> void:
 	update_mesh()
 
-func get_height(x: float, z: float) -> float:
-	return noise.get_noise_2d(x+position.x, z+position.z) * 12.0 - (z+position.z)/2
-
 func get_normal(x: float, y: float) -> Vector3:
 	var epsilon := float(size) / float(resolution)
 	var normal := Vector3(
-		(get_height(x + epsilon, y) - get_height(x - epsilon, y)) / (2.0 * epsilon),
+		(noise_manager.get_noise(x + epsilon, y,position) - noise_manager.get_noise(x - epsilon, y,position)) / (2.0 * epsilon),
 		1.0,
-		(get_height(x, y + epsilon) - get_height(x, y - epsilon)) / (2.0 * epsilon),
+		(noise_manager.get_noise(x, y + epsilon,position) - noise_manager.get_noise(x, y - epsilon,position)) / (2.0 * epsilon),
 	)
 	return normal.normalized()
 
@@ -39,10 +31,9 @@ func update_mesh() -> void:
 		var vertex := vertex_array[i]
 		var normal := Vector3.UP
 		var tangent := Vector3.RIGHT
-		if noise:
-			vertex.y = get_height(vertex.x, vertex.z)
-			normal = get_normal(vertex.x, vertex.z)
-			tangent = normal.cross(Vector3.UP)
+		vertex.y = noise_manager.get_noise(vertex.x, vertex.z,position)
+		normal = get_normal(vertex.x, vertex.z)
+		tangent = normal.cross(Vector3.UP)
 		vertex_array[i] = vertex
 		normal_array[i] = normal
 		tangent_array[4 * i] = tangent.x

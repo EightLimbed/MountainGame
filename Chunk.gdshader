@@ -1,42 +1,46 @@
 shader_type spatial;
 varying float slope;
 varying flat int treaded;
-const float snow_threshold = 0.65;
+const float snow_threshold = 0.7;
 const float tread_radius = 3.0;
 uniform sampler2D snow_texture;
 uniform sampler2D stone_texture;
 uniform int max_treads = 128;
 global uniform sampler2D treaded_vertices;
 
-int treaded_has(vec3 pos){
+float treaded_has(vec3 pos){
 	for (int i = 0; i < max_treads; i++) {
-		vec3 fp = texture(treaded_vertices, vec2((float(i) + 0.5) / float(max_treads), 0.5)).rgb;;
+		vec3 fp = texture(treaded_vertices, vec2((float(i) + 0.5) / float(max_treads), 0.5)).rgb;
+		float d = distance(pos, fp);
 		if (distance(pos, fp) < tread_radius) {
-			return 1;
+			return d;
 		}
 	}
-	return 0;
+	return tread_radius;
 }
 
 void vertex() {
 	vec3 world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	slope = NORMAL.y*1.01;
-	treaded = treaded_has(world_pos);
-	if (NORMAL.y > snow_threshold && treaded==0){
-		VERTEX += NORMAL*vec3(-1.2,1.0,-1.2);
+	slope = abs(NORMAL.y*1.01);
+	float d = treaded_has(world_pos);
+	if (d < tread_radius)treaded = 1;
+	else treaded = 0;
+	if (NORMAL.y > snow_threshold){
+		if (treaded == 0) VERTEX += NORMAL*vec3(-1.2,1.0,-1.2);
+		else VERTEX += NORMAL*vec3(-1.2,1.0,-1.2)-vec3(0.0,tread_radius/d,0.0) +0.1;
 	}
 }
 
 void fragment() {
-	float b = sqrt(VERTEX.y-VERTEX.z)/100.0-0.2;
+	float b = sqrt(VERTEX.y-VERTEX.z)/100.0-0.3;
 	if (slope > snow_threshold) {
 		if (treaded == 1){
-			ALBEDO = texture(snow_texture, UV * 180.0).rgb+vec3(b,b,b/2.0)-0.2;
+			ALBEDO = texture(snow_texture, UV * 10.0).rgb+vec3(b,b,b/1.5)-0.1;
 		}else{
-			ALBEDO = texture(snow_texture, UV * 180.0).rgb+vec3(b,b,b/2.0)-0.1;
+			ALBEDO = texture(snow_texture, UV * 10.0).rgb+vec3(b,b,b/1.5);
 		}
 	} else {
-		ALBEDO = texture(stone_texture, UV * 267.0).rgb+vec3(b,b,b)/2.0;
+		ALBEDO = texture(stone_texture, UV * 10.0).rgb+vec3(b,b,b)/2.0;
 	}
 }
 

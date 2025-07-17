@@ -11,7 +11,7 @@ var camera_height := 2.0
 
 #movement
 var airborne : bool = true
-const SPEED = 400.0
+const SPEED = 8000.0
 
 #treads
 @onready var tread_manager = $"/root/TreadManager"
@@ -19,7 +19,6 @@ var old_tread_pos : Vector3
 
 func _ready():
 	old_tread_pos = position
-	pass
 
 func _unhandled_input(event: InputEvent) -> void:
 	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -54,9 +53,9 @@ func _physics_process(delta: float) -> void:
 #if player is on ground, pass list of saved positions of certain distance from eachother, along with current player position, for smooth trails
 func deal_with_footprints():
 	#if !airborne:
-		if (old_tread_pos- position).length() > 1.5:
-			tread_manager.add_tread(position)
-			old_tread_pos = position
+	if (old_tread_pos- position).length() > 1.0:
+		tread_manager.add_tread(position)
+		old_tread_pos = position
 
 func _on_ground_detector_body_entered(_body: Node3D) -> void:
 	airborne = false
