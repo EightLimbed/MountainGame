@@ -50,11 +50,12 @@ func _physics_process(delta: float) -> void:
 		var move_dir := (right * input_dir.x + forward * input_dir.y).normalized()
 		apply_central_force(move_dir * SPEED * delta)
 
+#if player is on ground, pass list of saved positions of certain distance from eachother, along with current player position, for smooth trails
 func deal_with_footprints():
-	if !airborne:
-		if (old_tread_pos- position).length() > 1.0:
-			tread_manager.add_tread(position)
-			old_tread_pos = position
+	#if !airborne:
+	if (old_tread_pos- position).length() > 1.0:
+		tread_manager.add_tread(position)
+		old_tread_pos = position
 
 func _on_ground_detector_body_entered(_body: Node3D) -> void:
 	airborne = false
