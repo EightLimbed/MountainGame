@@ -46,7 +46,7 @@ func _physics_process(delta: float) -> void:
 	if input_dir != Vector2.ZERO:
 		if airborne:
 			var rot_dir := (right * input_dir.y + -forward * input_dir.x).normalized()
-			apply_torque(rot_dir*SPEED*delta*2.0)
+			apply_torque(rot_dir*SPEED*delta*4.0)
 		var move_dir := (right * input_dir.x + forward * input_dir.y).normalized()
 		apply_central_force(move_dir * SPEED * delta)
 
