@@ -15,11 +15,9 @@ func add_tread(pos: Vector3):
 	footprints.append(pos)
 	if footprints.size() > MAX_TREADS:
 		footprints.pop_front()
-	RenderingServer.global_shader_parameter_set("player_position", pos)
 	update_tread_texture()
 
 func update_tread_texture():
-	#+1s are for current player position
 	var image := Image.create(MAX_TREADS, 1, false, Image.FORMAT_RGBF)
 	for i in MAX_TREADS:
 		var p = footprints[i]
