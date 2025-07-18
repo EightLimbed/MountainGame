@@ -16,7 +16,9 @@ float tread_depth(vec3 pos){
 		vec3 delta = pos-fp;
 		float td = dot(delta, delta);
 		if (td < tread_radius*tread_radius) {
-			return (tread_radius - sqrt(td));
+			//apparently some bum ass smoothstep is way faster than sqrt() in glsl?
+			float falloff = smoothstep(tread_radius*tread_radius, 0.0, td);
+			return tread_radius * falloff;
 		}
 	}
 	return tread_radius;
@@ -31,8 +33,9 @@ void vertex() {
 	if (dot(dp, dp) < mds) d = tread_depth(world_pos);
 	else d = tread_radius;
 	if (NORMAL.y > snow_threshold){
-		if (d < tread_radius) VERTEX += vec3(0.0,-d,0.0)+NORMAL*vec3(-1.2,0.5,-1.2);
-		else VERTEX += NORMAL*vec3(-1.2,1.0,-1.2);
+		//no if cases minimizes divergence
+		float weight = smoothstep(tread_radius, 0.0, d);
+		VERTEX += mix(NORMAL * vec3(-1.2,1.0,-1.2), vec3(0.0, -(d - 0.5), 0.0), weight);
 	}
 }
 
