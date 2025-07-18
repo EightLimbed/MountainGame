@@ -4,7 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://gt5lu2p6mcy8" path="res://icon.svg" id="2_kpjcp"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xhfnw"]
-friction = 0.01
+friction = 0.1
+rough = true
 absorbent = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kne1u"]
@@ -15,7 +16,6 @@ material = SubResource("StandardMaterial3D_kne1u")
 radius = 2.0
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_kpjcp"]
-height = 1.4
 radius = 2.1
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_kpjcp"]

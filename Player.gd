@@ -6,12 +6,12 @@ var camera_zoom : float = 6.0
 var pitch : float = 1.0
 var yaw : float = 0.0
 var sensitivity = 0.002
-var camera_distance := 6.0
+var camera_distance := 8.0
 var camera_height := 2.0
 
 #movement
 var airborne : bool = true
-const SPEED = 8000.0
+const SPEED = 5000.0
 
 #treads
 @onready var tread_manager = $"/root/TreadManager"
@@ -33,8 +33,8 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(_delta: float) -> void:
 	#just for camera direction and stuff
 	var offset := Vector3(0, camera_height, camera_distance)
-	offset = Basis(Vector3(1, 0, 0), pitch) * offset  # Apply pitch
-	offset = Basis(Vector3(0, 1, 0), yaw) * offset    # Apply yaw
+	offset = Basis(Vector3(1, 0, 0), pitch) * offset  # apply pitch
+	offset = Basis(Vector3(0, 1, 0), yaw) * offset    # apply yaw
 	camera.global_position = global_position + offset
 	camera.look_at(global_position + Vector3(0, camera_height, 0), Vector3.UP)
 
@@ -50,9 +50,7 @@ func _physics_process(delta: float) -> void:
 		var move_dir := (right * input_dir.x + forward * input_dir.y).normalized()
 		apply_central_force(move_dir * SPEED * delta)
 
-#if player is on ground, pass list of saved positions of certain distance from eachother, along with current player position, for smooth trails
 func deal_with_footprints():
-	#if !airborne:
 	if (old_tread_pos- position).length() > 1.0:
 		tread_manager.add_tread(position)
 		old_tread_pos = position

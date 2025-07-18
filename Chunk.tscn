@@ -15,8 +15,8 @@ shader_parameter/stone_texture = ExtResource("3_fbyps")
 shader_parameter/max_treads = 128
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_s3wkh"]
-friction = 0.05
-absorbent = true
+friction = 0.1
+rough = true
 
 [node name="Chunk" type="MeshInstance3D"]
 mesh = SubResource("PlaneMesh_s3wkh")
