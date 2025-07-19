@@ -1,27 +1,31 @@
 extends Node3D
-var footprints : Array[Vector3] = []  # Array of Vector3 trampled positions
 
-var treads_image := Image.new()
-var treads_texture := ImageTexture.new()
+var footprints: Array[Vector3] = []
 
 const MAX_TREADS = 128
+const TREAD_WIDTH = 16
+const TREAD_HEIGHT = 8
+
+var treads_image := Image.create(TREAD_WIDTH, TREAD_HEIGHT, false, Image.FORMAT_RGBH)
+var treads_texture := ImageTexture.create_from_image(treads_image)
 
 func _ready() -> void:
 	RenderingServer.global_shader_parameter_set("treaded_vertices", treads_texture)
 	for i in MAX_TREADS:
 		footprints.append(Vector3.ZERO)
+	update_tread_texture()
 
-func add_tread(pos: Vector3):
+func add_tread(pos: Vector3) -> void:
 	footprints.append(pos)
 	if footprints.size() > MAX_TREADS:
 		footprints.pop_front()
 	update_tread_texture()
 
-func update_tread_texture():
-	var image := Image.create(MAX_TREADS, 1, false, Image.FORMAT_RGBF)
+func update_tread_texture() -> void:
 	for i in MAX_TREADS:
 		var p = footprints[i]
-		image.set_pixel(i, 0, Color(p.x, p.y, p.z))
-	treads_texture = ImageTexture.create_from_image(image)
-	#upload uniforms
+		var x = i % TREAD_WIDTH
+		var y = i / TREAD_WIDTH
+		treads_image.set_pixel(x, y, Color(p.x, p.y, p.z))
+	treads_texture = ImageTexture.create_from_image(treads_image)
 	RenderingServer.global_shader_parameter_set("treaded_vertices", treads_texture)

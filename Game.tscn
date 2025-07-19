@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dv2en3rqt72bg"]
+[gd_scene load_steps=7 format=3 uid="uid://dv2en3rqt72bg"]
 
 [ext_resource type="PackedScene" uid="uid://c3tnwv05g0bxl" path="res://Chunk.tscn" id="2_xkndl"]
+[ext_resource type="Script" uid="uid://6dk1xlvycfqq" path="res://Performance.gd" id="3_sb48q"]
 [ext_resource type="PackedScene" uid="uid://chy68lr8ex6ny" path="res://Player.tscn" id="3_u44n3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r0x5m"]
@@ -58,3 +59,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1792)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_3mrqo")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("3_sb48q")
