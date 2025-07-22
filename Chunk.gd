@@ -1,8 +1,8 @@
 extends MeshInstance3D
 
 @onready var noise_manager = $"/root/NoiseManager"
-@export_range(64,1024.0,1.0) var size := 128
-@export_range(4.0,256.0,1.0) var resolution := 128
+var size : int
+var resolution : int
 
 func _ready() -> void:
 	update_mesh()

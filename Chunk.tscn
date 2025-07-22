@@ -22,8 +22,6 @@ rough = true
 mesh = SubResource("PlaneMesh_s3wkh")
 surface_material_override/0 = SubResource("ShaderMaterial_r8y4k")
 script = ExtResource("2_r8y4k")
-size = 256
-resolution = 256
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_layer = 2

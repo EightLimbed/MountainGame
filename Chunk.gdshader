@@ -46,7 +46,7 @@ void vertex() {
 	slope = abs(NORMAL.y);
 
 	if (NORMAL.y > snow_threshold){
-		d = tread_depth(world_pos);
+		d = tread_radius;//tread_depth(world_pos);
 		float weight = smoothstep(tread_radius, 0.0, d);
 		VERTEX += mix(NORMAL * vec3(-1.2,1.0,-1.2), vec3(0.0, (d - 0.2), 0.0), weight);
 	}else{

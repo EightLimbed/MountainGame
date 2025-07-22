@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://dv2en3rqt72bg"]
+[gd_scene load_steps=8 format=3 uid="uid://dv2en3rqt72bg"]
 
+[ext_resource type="Script" uid="uid://brr4fls4mrkui" path="res://ChunkManager.gd" id="2_sb48q"]
 [ext_resource type="PackedScene" uid="uid://c3tnwv05g0bxl" path="res://Chunk.tscn" id="2_xkndl"]
 [ext_resource type="Script" uid="uid://6dk1xlvycfqq" path="res://Performance.gd" id="3_sb48q"]
 [ext_resource type="PackedScene" uid="uid://chy68lr8ex6ny" path="res://Player.tscn" id="3_u44n3"]
@@ -33,29 +34,8 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 64, -64)
 
 [node name="ChunkContainer" type="Node3D" parent="."]
-
-[node name="Chunk" parent="ChunkContainer" instance=ExtResource("2_xkndl")]
-
-[node name="Chunk2" parent="ChunkContainer" instance=ExtResource("2_xkndl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 256)
-
-[node name="Chunk3" parent="ChunkContainer" instance=ExtResource("2_xkndl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 512)
-
-[node name="Chunk4" parent="ChunkContainer" instance=ExtResource("2_xkndl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 768)
-
-[node name="Chunk5" parent="ChunkContainer" instance=ExtResource("2_xkndl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1024)
-
-[node name="Chunk6" parent="ChunkContainer" instance=ExtResource("2_xkndl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1280)
-
-[node name="Chunk7" parent="ChunkContainer" instance=ExtResource("2_xkndl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1536)
-
-[node name="Chunk8" parent="ChunkContainer" instance=ExtResource("2_xkndl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1792)
+script = ExtResource("2_sb48q")
+chunk = ExtResource("2_xkndl")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_3mrqo")
