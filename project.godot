@@ -18,7 +18,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 TreadManager="*res://TreadManager.gd"
-NoiseManager="*res://NoiseManager.gd"
 
 [display]
 
@@ -77,11 +76,19 @@ treaded_vertices={
 "type": "sampler2D",
 "value": ""
 }
-total_treads={
-"type": "int",
-"value": 0
-}
 player_position={
 "type": "vec3",
 "value": Vector3(0, 0, 0)
+}
+snow_texture={
+"type": "sampler2D",
+"value": "res://Snow.jpg"
+}
+stone_texture={
+"type": "sampler2D",
+"value": "res://Stone.jpg"
+}
+max_treads={
+"type": "int",
+"value": 128
 }

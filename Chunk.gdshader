@@ -6,10 +6,10 @@ varying float d;
 const float snow_threshold = 0.7;
 const float tread_radius = 4.0;
 
-uniform sampler2D snow_texture;
-uniform sampler2D stone_texture;
+global uniform sampler2D snow_texture;
+global uniform sampler2D stone_texture;
 
-uniform int max_treads = 128;
+global uniform int max_treads = 128;
 const int TREAD_WIDTH = 16;
 const int TREAD_HEIGHT = 8;
 
@@ -46,7 +46,7 @@ void vertex() {
 	slope = abs(NORMAL.y);
 
 	if (NORMAL.y > snow_threshold){
-		d = tread_radius;//tread_depth(world_pos);
+		d = tread_depth(world_pos);
 		float weight = smoothstep(tread_radius, 0.0, d);
 		VERTEX += mix(NORMAL * vec3(-1.2,1.0,-1.2), vec3(0.0, (d - 0.2), 0.0), weight);
 	}else{

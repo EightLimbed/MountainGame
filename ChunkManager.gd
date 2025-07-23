@@ -1,9 +1,10 @@
 extends Node3D
 
 @export var chunk : PackedScene
-@export var render_distance : int = 5
+@export var render_distance : int = 3
 @export var chunk_size : int = 256
 @export var chunk_resolution : int = chunk_size
+@export var max_threads : int = 8
 
 func _ready() -> void:
 	generate_start_chunks()

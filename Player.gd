@@ -51,7 +51,7 @@ func _physics_process(delta: float) -> void:
 		apply_central_force(move_dir * SPEED * delta)
 
 func deal_with_footprints():
-	if (old_tread_pos- position).length() > 1.0:
+	if (old_tread_pos- position).length() > 1.0 and !airborne:
 		tread_manager.add_tread(position)
 		old_tread_pos = position
 
