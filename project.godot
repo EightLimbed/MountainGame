@@ -90,5 +90,5 @@ stone_texture={
 }
 max_treads={
 "type": "int",
-"value": 128
+"value": 64
 }

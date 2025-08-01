@@ -9,7 +9,7 @@ const float tread_radius = 4.0;
 global uniform sampler2D snow_texture;
 global uniform sampler2D stone_texture;
 
-global uniform int max_treads = 128;
+global uniform int max_treads = 64;
 const int TREAD_WIDTH = 16;
 const int TREAD_HEIGHT = 8;
 
@@ -58,7 +58,7 @@ void fragment() {
 	vec3 snow_col = texture(snow_texture, UV * 10.0).rgb;
 	vec3 stone_col = texture(stone_texture, UV * 10.0).rgb;
 
-	float slope_blend = smoothstep(snow_threshold - 0.03, snow_threshold + 0.03, slope);
+	float slope_blend = smoothstep(snow_threshold - 0.01, snow_threshold, slope);
 
 	vec3 base_color = mix(stone_col, snow_col, slope_blend);
 

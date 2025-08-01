@@ -10,7 +10,7 @@ var camera_distance := 8.0
 var camera_height := 2.0
 
 #movement
-var airborne : bool = true
+var airborne : int = 0
 const SPEED = 5000.0
 
 #treads
@@ -44,19 +44,22 @@ func _physics_process(delta: float) -> void:
 	var right = Vector3(forward.z, 0, -forward.x).normalized()
 	deal_with_footprints()
 	if input_dir != Vector2.ZERO:
-		if airborne:
+		if airborne == 0:
 			var rot_dir := (right * input_dir.y + -forward * input_dir.x).normalized()
 			apply_torque(rot_dir*SPEED*delta*4.0)
 		var move_dir := (right * input_dir.x + forward * input_dir.y).normalized()
 		apply_central_force(move_dir * SPEED * delta)
 
 func deal_with_footprints():
-	if (old_tread_pos- position).length() > 1.0 and !airborne:
-		tread_manager.add_tread(position)
-		old_tread_pos = position
+	if airborne > 0:
+		tread_manager.set_tread(position)
+		if (old_tread_pos- position).length() > 3.0:
+			tread_manager.add_tread(position)
+			old_tread_pos = position
+		tread_manager.update_tread_texture()
 
 func _on_ground_detector_body_entered(_body: Node3D) -> void:
-	airborne = false
+	airborne += 1
 
 func _on_air_detector_body_exited(_body: Node3D) -> void:
-	airborne = true
+	airborne -= 1

@@ -2,7 +2,7 @@ extends Node3D
 
 var footprints: Array[Vector3] = []
 
-const MAX_TREADS = 128
+const MAX_TREADS = 64
 const TREAD_WIDTH = 16
 const TREAD_HEIGHT = 8
 
@@ -15,11 +15,13 @@ func _ready() -> void:
 		footprints.append(Vector3.ZERO)
 	update_tread_texture()
 
+func set_tread(pos : Vector3) -> void:
+	footprints[0] = pos
+
 func add_tread(pos: Vector3) -> void:
 	footprints.append(pos)
 	if footprints.size() > MAX_TREADS:
 		footprints.pop_front()
-	update_tread_texture()
 
 func update_tread_texture() -> void:
 	for i in MAX_TREADS:
