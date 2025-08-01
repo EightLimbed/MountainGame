@@ -36,7 +36,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 96, 64)
 [node name="ChunkContainer" type="Node3D" parent="."]
 script = ExtResource("2_sb48q")
 chunk_scene = ExtResource("2_xkndl")
-render_distance = 9
+render_distance = 8
+chunk_resolution = 96
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_3mrqo")

@@ -6,7 +6,7 @@ const MAX_TREADS = 96
 const TREAD_WIDTH = 16
 const TREAD_HEIGHT = 8
 
-var treads_image := Image.create(TREAD_WIDTH, TREAD_HEIGHT, false, Image.FORMAT_RGBH)
+var treads_image := Image.create(TREAD_WIDTH, TREAD_HEIGHT, false, Image.FORMAT_RGBF)
 var treads_texture := ImageTexture.create_from_image(treads_image)
 
 func _ready() -> void:

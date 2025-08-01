@@ -16,9 +16,9 @@ const int TREAD_HEIGHT = 8;
 global uniform sampler2D treaded_vertices;
 
 vec3 get_footprint(int i) {
-	float x = float(i % TREAD_WIDTH);
-	float y = float(i / TREAD_WIDTH);
-	vec2 uv = (vec2(x, y) + vec2(0.5)) / vec2(float(TREAD_WIDTH), float(TREAD_HEIGHT));
+	highp float x = float(i % TREAD_WIDTH);
+	highp float y = float(i / TREAD_WIDTH);
+	highp vec2 uv = (vec2(x, y) + vec2(0.5)) / vec2(float(TREAD_WIDTH), float(TREAD_HEIGHT));
 	return texture(treaded_vertices, uv).rgb;
 }
 
@@ -63,7 +63,7 @@ void fragment() {
 	vec3 base_color = mix(stone_col, snow_col, slope_blend);
 
 	float trail_strength = clamp((1.0 - d / tread_radius), 0.0, 1.0);
-	base_color -= trail_strength * vec3(0.15, 0.15, 0.1)+0.25;
+	base_color -= trail_strength * vec3(0.2, 0.2, 0.15)+0.25;
 
 	ALBEDO = base_color;
 }
