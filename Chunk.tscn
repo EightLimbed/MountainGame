@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c3tnwv05g0bxl"]
+[gd_scene load_steps=8 format=3 uid="uid://c3tnwv05g0bxl"]
 
 [ext_resource type="Shader" uid="uid://3vjluihmanfm" path="res://Chunk.gdshader" id="1_s3wkh"]
 [ext_resource type="Script" uid="uid://c2dpwbi0nh4v5" path="res://Chunk.gd" id="2_r8y4k"]
@@ -14,6 +14,9 @@ shader = ExtResource("1_s3wkh")
 friction = 0.1
 rough = true
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_r8y4k"]
+size = Vector3(64, 64, 64)
+
 [node name="Chunk" type="MeshInstance3D"]
 mesh = SubResource("PlaneMesh_s3wkh")
 surface_material_override/0 = SubResource("ShaderMaterial_r8y4k")
@@ -26,3 +29,8 @@ collision_mask = 0
 physics_material_override = SubResource("PhysicsMaterial_s3wkh")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_r8y4k")

@@ -31,11 +31,13 @@ transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("3_u44n3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 64, -64)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 96, 0)
 
 [node name="ChunkContainer" type="Node3D" parent="."]
 script = ExtResource("2_sb48q")
 chunk = ExtResource("2_xkndl")
+render_distance = 7
+chunk_resolution = 64
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_3mrqo")

@@ -23,15 +23,11 @@ static func generate_mesh(size: int, resolution: int, pos: Vector3) -> Dictionar
 		var p := Vector2(x + pos.x, z + pos.z)
 		var normal = noise.get_noise_2dv(p / 2.0) * 12.0
 		var large = pow(noise.get_noise_2dv(p / 14.0) * 6.0, 3.0)
-		return normal + large - (z + pos.z) / 3.0
+		return normal + large - (z + pos.z) / 2.0
 
 	var get_normal = func(x: float, z: float) -> Vector3:
 		var eps = float(size) / float(resolution)
-		var n = Vector3(
-			(get_height.call(x + eps, z) - get_height.call(x - eps, z)) / (2.0 * eps),
-			1.0,
-			(get_height.call(x, z + eps) - get_height.call(x, z - eps)) / (2.0 * eps)
-		)
+		var n = Vector3((get_height.call(x + eps, z) - get_height.call(x - eps, z)) / (2.0 * eps),1.0,(get_height.call(x, z + eps) - get_height.call(x, z - eps)) / (2.0 * eps))
 		return n.normalized()
 
 	for i in vertices.size():

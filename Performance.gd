@@ -8,5 +8,5 @@ func _process(_delta: float) -> void:
 	var fps = Engine.get_frames_per_second()
 	total_fps += fps
 	total_checks += 1
-	var average_fps = total_fps/total_checks
+	average_fps = total_fps/total_checks
 	text = "FPS: " + str(fps) + "\n Average FPS: " + str(average_fps)
