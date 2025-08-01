@@ -9,6 +9,7 @@ var pos: Vector3
 var generator
 var active_thread : Thread
 var generating := false
+var data : Dictionary
 
 func _ready() -> void:
 	generator = generator_script.new()
@@ -21,8 +22,8 @@ func _process(_delta: float) -> void:
 
 	var dist = float(parent.render_distance) / 2.0
 	var player_chunk_pos = parent.player.position / size
-	var chunk_pos = floor(position / size) + Vector3(dist-0.5,0.0,dist-0.5)/2.0
-	var dif = player_chunk_pos - chunk_pos
+	var chunk_pos = floor(position / size)
+	var dif = player_chunk_pos - chunk_pos - Vector3(0.5,0.0,0.5)
 
 	var moved := false
 
@@ -55,9 +56,13 @@ func start_generate() -> void:
 
 func _threaded_generate() -> void:
 	var mesh_data: Dictionary = generator.generate_mesh(size, resolution, pos)
-	call_deferred("apply_mesh", mesh_data)
+	call_deferred("enqueue_mesh", mesh_data)
 
-func apply_mesh(data: Dictionary) -> void:
+func enqueue_mesh(mesh_data):
+	parent.enqueue(self)
+	data = mesh_data
+
+func apply_mesh() -> void:
 	# use mesh arrays
 	var arrays := []
 	arrays.resize(ArrayMesh.ARRAY_MAX)

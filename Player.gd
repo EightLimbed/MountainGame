@@ -2,7 +2,6 @@ extends RigidBody3D
 
 #camera
 @onready var camera := $Camera3D
-var camera_zoom : float = 6.0
 var pitch : float = 1.0
 var yaw : float = 0.0
 var sensitivity = 0.002
@@ -31,6 +30,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _process(_delta: float) -> void:
+	#camera zoom
+	if Input.is_action_just_pressed("ZoomIn"):
+		camera_distance /= 1.1
+	elif Input.is_action_just_pressed("ZoomOut"):
+		camera_distance *= 1.1
 	#just for camera direction and stuff
 	var offset := Vector3(0, camera_height, camera_distance)
 	offset = Basis(Vector3(1, 0, 0), pitch) * offset  # apply pitch
@@ -53,7 +57,7 @@ func _physics_process(delta: float) -> void:
 func deal_with_footprints():
 	if airborne > 0:
 		tread_manager.set_tread(position)
-		if (old_tread_pos- position).length() > 3.0:
+		if (old_tread_pos- position).length() > 2.0:
 			tread_manager.add_tread(position)
 			old_tread_pos = position
 		tread_manager.update_tread_texture()

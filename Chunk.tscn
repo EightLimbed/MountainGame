@@ -15,7 +15,7 @@ friction = 0.1
 rough = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r8y4k"]
-size = Vector3(64, 64, 64)
+size = Vector3(128, 128, 128)
 
 [node name="Chunk" type="MeshInstance3D"]
 mesh = SubResource("PlaneMesh_s3wkh")

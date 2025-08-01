@@ -2,7 +2,7 @@ extends Node3D
 
 var footprints: Array[Vector3] = []
 
-const MAX_TREADS = 64
+const MAX_TREADS = 96
 const TREAD_WIDTH = 16
 const TREAD_HEIGHT = 8
 
